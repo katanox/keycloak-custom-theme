@@ -16,7 +16,7 @@ To use Docker Compose:
 4. In the `docker-compose.yml` uncomment the providers and comment the line under `Development theme folder`.
 5. Run the following command: `docker-compose up -d`
 6. Wait for the Keycloak container to start.
-7. Access the Keycloak admin console by visiting `http://localhost:8080/auth/admin/`.
+7. Access the Keycloak admin console by visiting `http://localhost:8080/`.
 8. Log in using the default admin credentials (username: `admin`, password: `admin`).
 9. Follow the steps mentioned in the "Installation" section to apply and test your customized theme.
 
