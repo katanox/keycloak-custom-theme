@@ -6,7 +6,7 @@
         <form id="kc-reset-password-form" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
             <div class="${properties.kcFormGroupClass!}">
                 <div class="${properties.kcLabelWrapperClass!}">
-                    ${msg("passwordResetInfo")}
+                    ${msg("passwordResetInfo")?no_esc}
                 </div>
             </div>
             <div class="${properties.kcFormGroupClass!}">
