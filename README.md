@@ -14,23 +14,19 @@ To use Docker Compose:
 2. Open a terminal and navigate to the repository's root directory.
 3. Go the [releases](https://github.com/katanox/keycloak-custom-theme/releases) page in github and download the latest `katanox-theme.jar` and place in this repository inside a `providers` folder. The resulting structure should be `keycloak-custom-theme/providers/katanox-theme.jar`.
 4. In the `docker-compose.yml` uncomment the providers and comment the line under `Development theme folder`.
-5. Run the following command: `docker-compose up -d`
-6. Wait for the Keycloak container to start.
-7. Access the Keycloak admin console by visiting `http://localhost:8080/`.
-8. Log in using the default admin credentials (username: `admin`, password: `admin`).
-9. Follow the steps mentioned in the "Installation" section to apply and test your customized theme.
+5. Go to `/themes/custom-theme/theme/keycloak/common/resources` and run `yarn install --production`
+6. Go to the root and run `./package.sh && docker-compose up`
+7. Wait for the Keycloak container to start.
+8. Access the Keycloak admin console by visiting `http://localhost:8080/auth/admin/`.
+9. Log in using the default admin credentials (username: `admin`, password: `admin`).
+10. Follow the steps mentioned in the "Installation" section to apply and test your customized theme.
+11. Navigate to the `themes/custom-theme` folder.
+12. Modify the template files (e.g., HTML, CSS) and resources (e.g., images) according to your branding and design requirements.
+13. Update any necessary configurations or properties related to the theme customization.
+14. Save your changes.
+15. Kill the process in console and re-run `./package.sh && docker-compose up`
 
-To stop the Keycloak container, run `docker-compose down`.
-
-## Customization Process
-
-To customize the Keycloak theme for your specific needs, you can follow these steps:
-
-1. Clone this repository to your local machine.
-2. Navigate to the `themes/custom-theme` folder.
-3. Modify the template files (e.g., HTML, CSS) and resources (e.g., images) according to your branding and design requirements.
-4. Update any necessary configurations or properties related to the theme customization.
-5. Save your changes.
+Note: If you make a ny changes you need to re-pack the theme and restart docker
 
 ## Building the Theme
 
@@ -52,6 +48,23 @@ Alternatively, unzip the latest working release, copy all your changes into it a
 Note: The name of the .jar file is `katanox-theme`.
 
 The script will create a JAR file containing the customized theme and place it in the `providers` directory.
+
+## Release process
+
+1. Make required changes in the branch and commit them. Keep in mind that commit message is used to determine what part of version to bump.
+
+- if commit message contains `[major]` substring - the magor version will be bumped (v0.0.0 -> v1.0.0)
+- if commit message contains `[minor]` substring - the minor version will be bumped (v0.0.0 -> v0.1.0)
+- if commit message contains `[patch]` substring - the patch version will be bumped (v0.0.0 -> v0.0.1)
+- if no one of them in the commit message - the patch version will be bumped (v0.0.0 -> v0.0.1)
+
+2. Go to circle ci and approve release of the new version.
+
+- If the branch is non-master it will be a draft release (the tag will not be created and published in git)
+- If the branch is a master branch it will be a normal release (git will create a tag and assosiate it with the release)
+
+3. CircleCi pipeline will log the name of the release. Depending on the branch it could be `untagged_commitSHA` or `vX.X.X`. That needs to be copied
+4. The next step is to go to kuberentes repository and apply changes using helm. More information here: https://www.notion.so/katadocs/Keycloak-themes-75bd6e0700954f49bc6f9f9f36638839?pvs=4
 
 ## Installation
 
