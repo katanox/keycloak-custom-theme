@@ -24,9 +24,9 @@ services:
       - 8080:8080
     volumes:
       # Providers
-      - "./providers:/opt/keycloak/providers"
+      # - "./providers:/opt/keycloak/providers"
       # Development theme folder
-      # - "./themes/custom-theme/theme:/opt/keycloak/themes"
+      - "./themes/custom-theme/theme:/opt/keycloak/themes"
     depends_on:
       - postgres
     environment:
