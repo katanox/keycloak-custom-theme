@@ -47,7 +47,7 @@ increment_version() {
 }
 
 cmd_args=""
-
+new_version=""
 if [ "$release_type" = "staging" ]; then
   new_version="$latest_tag-staging-$CIRCLE_SHA1"
   cmd_args="--prerelease"
