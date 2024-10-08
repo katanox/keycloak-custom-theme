@@ -46,11 +46,6 @@ workflows:
   publish:
     jobs:
       - build-jar:
-          filters:
-            branches:
-              only:
-                - develop
-                - master
       - publish-staging-release:
           requires:
             - build-jar
