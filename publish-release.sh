@@ -70,7 +70,7 @@ fi
 
 release_notes="$commit_message"
 if [ "$release_type" = "staging" ]; then
-    release_notes="Staging Release: $release_notes"
+    release_notes="Staging Release $release_notes"
 fi
 
 echo "new_version $new_version"
