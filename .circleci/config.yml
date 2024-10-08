@@ -46,9 +46,13 @@ workflows:
   publish:
     jobs:
       - build-jar:
+      - hold-production-release:
+          type: approval
+          requires:
+            - build-jar
           filters:
             branches:
-              only: develop
+              ignore: master
       - publish-staging-release:
           requires:
             - build-jar
