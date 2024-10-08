@@ -73,6 +73,11 @@ if [ "$release_type" = "staging" ]; then
     release_notes="Staging Release: $release_notes"
 fi
 
+echo "new_version $new_version"
+echo "release_notes $release_notes"
+echo "cmd_args $cmd_args"
+
+
 release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$release_notes" $cmd_args)
 
 echo "Release created: $release_url"
