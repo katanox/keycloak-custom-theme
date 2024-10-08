@@ -80,4 +80,4 @@ echo "cmd_args $cmd_args"
 
 release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$release_notes" $cmd_args)
 
-echo "Release created: $release_url"
+echo "Release created at: $release_url"
