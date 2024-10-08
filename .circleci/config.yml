@@ -1,14 +1,25 @@
 version: 2.1
 
+orbs:
+  gh: circleci/github-cli@2.3.0
+
 jobs:
-  hello-world:
+  build-jar:
     docker:
-      - image: cimg/base:stable
+      - image: timbru31/java-node:8-jdk-20
     steps:
-      - run: echo "Hello World"
+      - checkout
+      - attach_workspace:
+          at: ~/workspace
+      - run: cd ./themes/custom-theme/theme/keycloak/common/resources && yarn install --production
+      - run: ./package.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - providers
 
 workflows:
   version: 2
-  hello-workflow:
+  build-workflow:
     jobs:
-      - hello-world
+      - build-jar
