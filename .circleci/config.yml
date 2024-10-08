@@ -44,22 +44,37 @@ jobs:
 
 workflows:
   version: 2
-  publish-workflow:
+  build-and-release:
     jobs:
-      - build-jar
-      - publish-staging-release:
+      - build-jar:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - hold-staging-release:
+          type: approval
           requires:
             - build-jar
+          filters:
+            branches:
+              ignore: master
+      - publish-staging-release:
+          requires:
+            - hold-staging-release
+          filters:
+            branches:
+              ignore: master
       - hold-production-release:
           type: approval
           requires:
             - build-jar
           filters:
             branches:
-              only: master  
+              only: master
       - publish-production-release:
           requires:
-            - hold-production-release 
+            - hold-production-release
           filters:
             branches:
-              only: master  
+              only: master
