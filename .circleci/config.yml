@@ -1,67 +1,14 @@
 version: 2.1
 
-orbs:
-  gh: circleci/github-cli@2.3.0
-
 jobs:
-  build-jar:
-    docker:
-      - image: timbru31/java-node:8-jdk-20
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/workspace
-      - run: cd ./themes/custom-theme/theme/keycloak/common/resources && yarn install --production
-      - run: ./package.sh
-      - persist_to_workspace:
-          root: .
-          paths:
-            - providers
-
-  publish-staging-release:
-    working_directory: ~/workspace
+  hello-world:
     docker:
       - image: cimg/base:stable
     steps:
-      - checkout
-      - gh/setup
-      - attach_workspace:
-          at: ~/workspace
-      - run: chmod +x ./publish-release.sh
-      - run: ./publish-release.sh staging
-
-  publish-production-release:
-    working_directory: ~/workspace
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - gh/setup
-      - attach_workspace:
-          at: ~/workspace
-      - run: chmod +x ./publish-release.sh
-      - run: ./publish-release.sh production
+      - run: echo "Hello World"
 
 workflows:
-  publish:
+  version: 2
+  hello-workflow:
     jobs:
-      - build-jar:
-      - publish-staging-release:
-          requires:
-            - build-jar
-          filters:
-            branches:
-              ignore: master
-      - hold-production-release:
-          type: approval
-          requires:
-            - build-jar
-          filters:
-            branches:
-              only: master
-      - publish-production-release:
-          requires:
-            - hold-production-release
-          filters:
-            branches:
-              only: master
+      - hello-world
