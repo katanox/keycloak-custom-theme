@@ -53,7 +53,7 @@ workflows:
             - build-jar
       - publish-staging-release:
           requires:
-            - build-jar
+            - hold-staging-release
       - hold-production-release:
           type: approval
           requires:
