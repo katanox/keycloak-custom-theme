@@ -25,6 +25,9 @@ jobs:
     steps:
       - checkout
       - gh/setup
+      - add_ssh_keys:
+            fingerprints:
+              - "SO:ME:FIN:G:ER:PR:IN:T"
       - attach_workspace:
           at: ~/workspace
       - run: chmod +x ./publish-release.sh
@@ -37,6 +40,9 @@ jobs:
     steps:
       - checkout
       - gh/setup
+      - add_ssh_keys:
+            fingerprints:
+              - "SO:ME:FIN:G:ER:PR:IN:T"
       - attach_workspace:
           at: ~/workspace
       - run: chmod +x ./publish-release.sh
