@@ -45,10 +45,7 @@ jobs:
 workflows:
   publish:
     jobs:
-      - build-jar:
-          filters:
-            branches:
-              ignore: master
+      - build-jar
       - hold-staging-release:
           type: approval
           requires:
@@ -56,14 +53,10 @@ workflows:
       - publish-staging-release:
           requires:
             - hold-staging-release
-      - build-jar-production:
-          filters:
-            branches:
-              only: master
       - hold-production-release:
           type: approval
           requires:
-            - build-jar-production
+            - build-jar
           filters:
             branches:
               only: master  
