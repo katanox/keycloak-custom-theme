@@ -28,7 +28,8 @@ jobs:
       - attach_workspace:
           at: ~/workspace
       - run: chmod +x ./publish-release.sh
-      - run: ./publish-release.sh
+      - run: ./publish-release.sh staging
+
   publish-production-release:
     working_directory: ~/workspace
     docker:
@@ -39,24 +40,30 @@ jobs:
       - attach_workspace:
           at: ~/workspace
       - run: chmod +x ./publish-release.sh
-      - run: ./publish-release.sh
+      - run: ./publish-release.sh production
+
 workflows:
   publish:
     jobs:
-      - build-jar
+      - build-jar:
+          filters:
+            branches:
+              ignore: master
       - hold-staging-release:
-          name: hold-release
           type: approval
           requires:
             - build-jar
       - publish-staging-release:
           requires:
             - hold-staging-release
+      - build-jar-production:
+          filters:
+            branches:
+              only: master
       - hold-production-release:
-          name: hold-release
           type: approval
           requires:
-            - build-jar
+            - build-jar-production
           filters:
             branches:
               only: master  
@@ -65,4 +72,4 @@ workflows:
             - hold-production-release
           filters:
             branches:
-              only: master  
+              only: master
