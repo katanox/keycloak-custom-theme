@@ -43,6 +43,9 @@ echo "new_version $new_version"
 echo "new_version $commit_message"
 echo "new_version $cmd_args"
 
+echo "Creating release: gh release create \"$new_version\" ./providers/*.jar --title=\"$new_version\" --notes=\"$commit_message\" $cmd_args"
+gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $cmd_args
+
 release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $cmd_args)
 
 echo $release_url
