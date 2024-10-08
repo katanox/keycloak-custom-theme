@@ -10,7 +10,11 @@ fi
 release_type=$1
 
 commit_message=$(git log --format=oneline --pretty=format:%s -n 1 $CIRCLE_SHA1)
-latest_tag=$(gh release list --limit 1 --json tagName --jq '.[0].tagName // "v0.0.0"')
+latest_tag=$(gh release list --limit 1 | awk '{print $1}')
+
+if [ -z "$latest_tag" ]; then
+    latest_tag="v0.0.0"
+fi
 
 echo "Commit message: $commit_message" 
 echo "Latest tag: $latest_tag"
