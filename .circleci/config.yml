@@ -30,11 +30,36 @@ jobs:
       - run: chmod +x ./publish-release.sh
       - run: ./publish-release.sh staging
 
+  publish-production-release:
+    working_directory: ~/workspace
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gh/setup
+      - attach_workspace:
+          at: ~/workspace
+      - run: chmod +x ./publish-release.sh
+      - run: ./publish-release.sh production
+
 workflows:
   version: 2
-  build-and-publish-staging:
+  publish-workflow:
     jobs:
       - build-jar
       - publish-staging-release:
           requires:
             - build-jar
+      - hold-production-release:
+          type: approval
+          requires:
+            - build-jar
+          filters:
+            branches:
+              only: master  
+      - publish-production-release:
+          requires:
+            - hold-production-release 
+          filters:
+            branches:
+              only: master  
