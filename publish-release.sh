@@ -34,7 +34,7 @@ increment_version() {
 new_version=$(increment_version "$latest_tag" "$commit_message")
 cmd_args=""
 
-if [[ $CIRCLE_BRANCH == "master" ]]; then
+if [[ $CIRCLE_BRANCH != "master" ]]; then
   new_version="$new_version-$CIRCLE_SHA1-beta"
 fi
 
