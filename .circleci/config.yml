@@ -18,26 +18,57 @@ jobs:
           paths:
             - providers
 
-  publish-release:
+  publish-staging-release:
     working_directory: ~/workspace
     docker:
       - image: cimg/base:stable
     steps:
       - checkout
       - gh/setup
+      - add_ssh_keys:
+            fingerprints:
+              - "SO:ME:FIN:G:ER:PR:IN:T"
       - attach_workspace:
           at: ~/workspace
       - run: chmod +x ./publish-release.sh
-      - run: ./publish-release.sh
+      - run: ./publish-release.sh staging
+
+  publish-production-release:
+    working_directory: ~/workspace
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gh/setup
+      - add_ssh_keys:
+            fingerprints:
+              - "SO:ME:FIN:G:ER:PR:IN:T"
+      - attach_workspace:
+          at: ~/workspace
+      - run: chmod +x ./publish-release.sh
+      - run: ./publish-release.sh production
+
 workflows:
   publish:
     jobs:
       - build-jar
-      - hold-release:
-          name: hold-release
+      - hold-staging-release:
           type: approval
           requires:
             - build-jar
-      - publish-release:
+      - publish-staging-release:
           requires:
-            - hold-release
+            - hold-staging-release
+      - hold-production-release:
+          type: approval
+          requires:
+            - build-jar
+          filters:
+            branches:
+              only: master  
+      - publish-production-release:
+          requires:
+            - hold-production-release
+          filters:
+            branches:
+              only: master
