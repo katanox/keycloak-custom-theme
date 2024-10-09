@@ -36,7 +36,6 @@ cmd_args=""
 
 if [[ $CIRCLE_BRANCH != "master" ]]; then
   new_version="$new_version-$CIRCLE_SHA1"
-  cmd_args="--draft"
 fi
 
 echo "new_version $new_version"
