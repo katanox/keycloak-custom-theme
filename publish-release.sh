@@ -35,8 +35,8 @@ new_version=$(increment_version "$latest_tag" "$commit_message")
 cmd_args=""
 
 if [[ $CIRCLE_BRANCH != "master" ]]; then
-  new_version="$new_version-$CIRCLE_SHA1"
-  cmd_args="--draft"
+  new_version="$new_version"
+  cmd_args="--beta"
 fi
 
 echo "new_version $new_version"
