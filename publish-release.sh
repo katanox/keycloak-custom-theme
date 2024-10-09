@@ -46,6 +46,9 @@ echo "New version: $new_version"
 echo "Commit message: $commit_message"
 echo "Prerelease flag: $prerelease_flag"
 
-release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $prerelease_flag)
-
-echo "Release URL: $release_url"
+if ! release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $cmd_args 2>&1); then
+    echo "Error creating release: $release_url"
+    exit 1
+else
+    echo "Release URL: $release_url"
+fi
