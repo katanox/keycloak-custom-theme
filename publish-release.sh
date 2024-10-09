@@ -1,7 +1,7 @@
 #!/bin/bash
 
 commit_message=$(git log --format=oneline --pretty=format:%s -n 1 $CIRCLE_SHA1)
-latest_tag=$(gh release view --json tagName --jq '.tagName')
+latest_tag=$(gh release view --json tagName --jq '.tagName' | sed 's/-.*$//')
 
 echo "Commit message: $commit_message" 
 echo "Latest tag: $latest_tag"
@@ -17,8 +17,11 @@ increment_version() {
   # Check input string for [major], [minor], [patch]
   if [[ $input == *"[major]"* ]]; then
     major=$((major + 1))
+    minor=0
+    patch=0
   elif [[ $input == *"[minor]"* ]]; then
     minor=$((minor + 1))
+    patch=0
   else
     # Treat as [patch] if no [major] or [minor] found
     patch=$((patch + 1))
@@ -32,20 +35,18 @@ increment_version() {
 
 # Get new version
 new_version=$(increment_version "$latest_tag" "$commit_message")
-cmd_args=""
+prerelease_flag=""
 
 if [[ $CIRCLE_BRANCH != "master" ]]; then
-  new_version="$new_version"
-  cmd_args="--beta"
+  new_version="${new_version}-beta"
+  prerelease_flag="--prerelease"
 fi
 
-echo "new_version $new_version"
-echo "new_version $commit_message"
-echo "new_version $cmd_args"
+echo "New version: $new_version"
+echo "Commit message: $commit_message"
+echo "Prerelease flag: $prerelease_flag"
 
-echo "Creating release: gh release create \"$new_version\" ./providers/*.jar --title=\"$new_version\" --notes=\"$commit_message\" $cmd_args"
-gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $cmd_args
+echo "Creating release: gh release create \"$new_version\" ./providers/*.jar --title=\"$new_version\" --notes=\"$commit_message\" $prerelease_flag"
+release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $prerelease_flag)
 
-release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $cmd_args)
-
-echo $release_url
+echo "Release URL: $release_url"
