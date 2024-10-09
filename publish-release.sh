@@ -38,7 +38,7 @@ new_version=$(increment_version "$latest_tag" "$commit_message")
 prerelease_flag=""
 
 if [[ $CIRCLE_BRANCH != "master" ]]; then
-  new_version="${new_version}-beta"
+  new_version="${new_version}-${CIRCLE_SHA1}-beta"
   prerelease_flag="--prerelease"
 fi
 
@@ -46,7 +46,6 @@ echo "New version: $new_version"
 echo "Commit message: $commit_message"
 echo "Prerelease flag: $prerelease_flag"
 
-echo "Creating release: gh release create \"$new_version\" ./providers/*.jar --title=\"$new_version\" --notes=\"$commit_message\" $prerelease_flag"
 release_url=$(gh release create "$new_version" ./providers/*.jar --title="$new_version" --notes="$commit_message" $prerelease_flag)
 
 echo "Release URL: $release_url"
