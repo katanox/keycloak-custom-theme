@@ -31,11 +31,11 @@ increment_version() {
 }
 
 # Get new version
-new_version="$CIRCLE_SHA1"
+new_version=$(increment_version "$latest_tag" "$commit_message")
 cmd_args=""
 
 if [[ $CIRCLE_BRANCH == "master" ]]; then
-  new_version=$(increment_version "$latest_tag" "$commit_message")
+  new_version="$new_version-$CIRCLE_SHA1-beta"
 fi
 
 echo "new_version $new_version"
