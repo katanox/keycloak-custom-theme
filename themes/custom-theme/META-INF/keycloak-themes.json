@@ -2,15 +2,22 @@
   "themes": [
     {
       "name": "custom",
-      "types": ["login"]
+      "types": [
+        "login"
+      ]
     },
     {
       "name": "custom.v2",
-      "types": ["login"]
+      "types": [
+        "login"
+      ]
     },
     {
       "name": "katanox",
-      "types": ["login"]
+      "types": [
+        "login",
+        "email"
+      ]
     }
   ]
 }
