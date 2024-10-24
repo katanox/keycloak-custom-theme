@@ -1,12 +1,12 @@
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=${adminUrl}" />
+    <meta http-equiv="refresh" content="0; url=https://bff-staging.katanox.com/auth/login" />
     <meta name="robots" content="noindex, nofollow">
     <script type="text/javascript">
         window.location.href = "${adminUrl}"
     </script>
 </head>
 <body>
-If you are not redirected automatically, follow this <a href='${adminUrl}'>link</a>.
+If you are not redirected automatically, follow this <a href='https://bff-staging.katanox.com/auth/login'>link</a>.
 </body>
 </html>
