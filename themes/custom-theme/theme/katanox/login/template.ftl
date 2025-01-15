@@ -50,7 +50,7 @@
 <body class="${properties.kcBodyClass!}">
 <div class="${properties.kcLoginClass!}">
     <div id="kc-header" class="${properties.kcHeaderClass!}">
-        <img src="${url.resourcesPath}/img/logo.svg" alt="Logo">
+        <img src="${url.resourcesPath}/img/logo.svg" alt="Katanox">
     </div>
     <div class="${properties.kcFormCardClass!}">
         <header class="${properties.kcFormHeaderClass!}">

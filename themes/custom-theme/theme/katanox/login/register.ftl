@@ -171,9 +171,9 @@
                 gap: 8px;
             }
             #switch-container .pf-c-button.active {
-                --pf-c-button--m-secondary--after--BorderColor: #0265fe;
+                --pf-c-button--m-secondary--after--BorderColor: #001C2C;
                 background-color: #fff;
-                color: #0265fe;
+                color: #001C2C;
             }
         </style>
     <#elseif section = "haveAccount">
